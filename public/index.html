@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="weighttrackerApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@
 
   </head>
 
-  <body>
+  <body ng-controller="weighttrackerController">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -49,9 +49,29 @@
 
       <!-- Intro -->
       <div class="starter-template">
-        <h1>Keep Track Of Your Weight</h1>
+        <h1>Keep Track Of Your Weight TEST</h1>
         <p class="lead">Use this app to simply keep track of your weight evolution. <br>The objective being for you to secure a healthy body weight and help you meet your objectives.</p>
       </div>
+
+
+      <!-- START Weight user input Division -->
+      <div class="starter-template">
+        
+        <form class="css-form" ng-submit="checkInWeight()" name="weightCheckInForm"> 
+
+        <input type="text" class="form-control" style="width:300px; margin:auto; margin-bottom: 30px; " placeholder="E.g.: 155" ng-model="weightInput" name="weightInputField">
+
+          <!-- Submit Form -->
+          <div style="width:150px;margin:auto;">
+            <button type="submit" class="btn btn-primary btn-lg">Check In! &raquo;</button> 
+          </div>
+
+        </form>
+      </div>
+      <!-- END Weight user input Division -->
+
+
+
 
 
       <!-- Chartist Div -->
@@ -74,8 +94,32 @@
     <!-- chartist -->
     <script src="bower_components/chartist/dist/chartist.min.js"></script>
 
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBWLb_cgkjC9Om-aZZ6SOt7mMZ01k-YnY8",
+        authDomain: "weighttracker-56948.firebaseapp.com",
+        databaseURL: "https://weighttracker-56948.firebaseio.com",
+        projectId: "weighttracker-56948",
+        storageBucket: "weighttracker-56948.appspot.com",
+        messagingSenderId: "159533388950"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+
+
     <!-- My WeighTracker JavaScript Code -->
     <script src="js/weighttracker.js"></script>
+
+
 
   </body>
 </html>
