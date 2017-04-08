@@ -1,29 +1,36 @@
 // Angular App definition
 var app = angular.module("weighttrackerApp", ["firebase"]);
 
-// AngularFire Controller
+// App Controller
 app.controller("weighttrackerController", function($scope, $firebaseArray) {
 	
-	var ref = firebase.database().ref();
+	var ref = firebase.database().ref().child("weights");
 	// download the data into a local object
 	$scope.data = $firebaseArray(ref);
 	// putting a console.log here won't work, see below
-	console.log("Hello there!")
+	console.log("Hello there!");
 
 
 
 	//Method to add a new Weight, called by the form ng-submit
 	$scope.checkInWeight = function(){
 
+		console.log("Check In button has been pressed");
 		//Add the order in the overall list of orders (Firebase)
-		console.log("Add Weight Entry to Firebase!");
+		console.log("Add Weight " + $scope.weightInput + " into Firebase!");
+		
+		//Date 
+		var d = Date();
+		console.log("Date used for weight check in: " + d)
+
 		$scope.data.$add({
 	    
-	    "Weight": 175,   
+	    	"Weight": $scope.weightInput,
+	    	"DateAndTime": d,
 
 		}).then(function(ref) {
 
-			console.log("That thing was a success!");
+			console.log("Weight has been entered in Firebase with key: " + ref.key);
 			});
 
 	}

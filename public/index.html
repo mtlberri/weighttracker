@@ -13,10 +13,10 @@
 
     <!-- Bootstrap core CSS -->
     <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="css/starter-template.css" rel="stylesheet">
-
+    <!-- My personal CSS for weighttracker -->
+    <link href="css/weighttracker.css" rel="stylesheet">
     <!-- Chartist CSS -->
     <link href="bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
 
@@ -55,17 +55,17 @@
 
 
       <!-- START Weight user input Division -->
-      <div class="starter-template">
-        
-        <form class="css-form" ng-submit="checkInWeight()" name="weightCheckInForm"> 
-
-        <input type="text" class="form-control" style="width:300px; margin:auto; margin-bottom: 30px; " placeholder="E.g.: 155" ng-model="weightInput" name="weightInputField">
-
-          <!-- Submit Form -->
-          <div style="width:150px;margin:auto;">
-            <button type="submit" class="btn btn-primary btn-lg">Check In! &raquo;</button> 
+      <div class="user-input-area">
+        <form class="form-inline" ng-submit="checkInWeight()"> 
+          <div class="form-group"> 
+            <label for="weightInputField">Weight:</label>
+            <div class="input-group">
+              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField">
+              <div class="input-group-addon">lbs</div>
+            </div>
           </div>
-
+          <!-- Submit Form with Button -->
+          <button type="submit" class="btn btn-primary">Check In</button>
         </form>
       </div>
       <!-- END Weight user input Division -->
@@ -93,10 +93,8 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- chartist -->
     <script src="bower_components/chartist/dist/chartist.min.js"></script>
-
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
-
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
     <script>
@@ -111,14 +109,10 @@
       };
       firebase.initializeApp(config);
     </script>
-
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
-
-
     <!-- My WeighTracker JavaScript Code -->
     <script src="js/weighttracker.js"></script>
-
 
 
   </body>
