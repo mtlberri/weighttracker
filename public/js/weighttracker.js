@@ -1,8 +1,8 @@
 // Angular App definition
-var app = angular.module("weighttrackerApp", ["firebase"]);
+var app = angular.module("weighttrackerApp", ["firebase", "chart.js"]);
 
 // App Controller
-app.controller("weighttrackerController", function($scope, $firebaseArray) {
+app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray', function($scope, $timeout, $firebaseArray) {
 	
 	var ref = firebase.database().ref().child("weights");
 	// download the data into a local object
@@ -11,6 +11,11 @@ app.controller("weighttrackerController", function($scope, $firebaseArray) {
 	console.log("Hello there!");
 
 
+	// Bind the firebase data to the chart data
+	$scope.labels_time = ["Mon", "Tue"];
+	$scope.data_weights = [170, 169];
+	$scope.series = ["Weights Serie"];
+	
 
 	//Method to add a new Weight, called by the form ng-submit
 	$scope.checkInWeight = function(){
@@ -40,11 +45,11 @@ app.controller("weighttrackerController", function($scope, $firebaseArray) {
 
 
 
-}); // END OF APP CONTROLLER
+}]); // END OF APP CONTROLLER
 
 
 
-
+	/*
 
 	// Weight Chart 
 	var ctx = document.getElementById("WeightChart");
@@ -80,7 +85,7 @@ app.controller("weighttrackerController", function($scope, $firebaseArray) {
 
 
 
-
+	*/
 
 
 

@@ -69,9 +69,8 @@
       </div>
       <!-- END Weight user input Division -->
 
-      <canvas id="WeightChart" width="500" height="200"></canvas>
-
-
+      <!-- CHART -->
+      <canvas class="chart chart-line" chart-data="data_weights" chart-labels="labels_time" chart-series="series" id="WeightChart" width="500" height="200"></canvas>
 
 
 
@@ -106,6 +105,8 @@
     <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
     <!-- Chart.js bundle (including Moment.js) -->
     <script src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+    <!-- Angular-Chart --> 
+    <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
     <!-- My WeighTracker JavaScript Code -->
     <script src="js/weighttracker.js"></script>
 
