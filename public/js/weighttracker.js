@@ -37,23 +37,6 @@ app.controller("weighttrackerController", function($scope, $firebaseArray) {
 
 
 
-	// CHART
-
-	
-	var data = {
-	  // A labels array that can contain any sort of values
-	  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-	  // Our series array that contains series objects or in this case series data arrays
-	  series: [
-	    [169, 170, 171, 170, 173, 174, 173]
-	  ]
-	};
-	
-
-	// Create a new line chart object where as first parameter we pass in a selector
-	// that is resolving to our chart container element. The Second parameter
-	// is the actual data object.
-	new Chartist.Line('.ct-chart', data);
 
 
 
@@ -63,6 +46,37 @@ app.controller("weighttrackerController", function($scope, $firebaseArray) {
 
 
 
+	// Weight Chart 
+	var ctx = document.getElementById("WeightChart");
+	var myWeightChart = new Chart(ctx, {
+	    type: 'line',
+	    data: {
+	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+	        datasets: [{
+	            label: '# of Votes',
+	            data: [12, 19, 3, 5, 2, 3],
+	            backgroundColor: [
+	                'rgba(0,0,0,0.1)'
+	            ],
+	            borderColor: [
+	                'rgba(0,0,0,0.1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero:true
+	                }
+	            }]
+	        },
+	        legend: {
+	        	display: false
+	        }
+	    }
+	});
 
 
 

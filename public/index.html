@@ -17,8 +17,7 @@
     <link href="css/starter-template.css" rel="stylesheet">
     <!-- My personal CSS for weighttracker -->
     <link href="css/weighttracker.css" rel="stylesheet">
-    <!-- Chartist CSS -->
-    <link href="bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
+
 
   </head>
 
@@ -70,12 +69,8 @@
       </div>
       <!-- END Weight user input Division -->
 
+      <canvas id="WeightChart" width="500" height="200"></canvas>
 
-
-
-
-      <!-- Chartist Div -->
-      <div class="ct-chart ct-double-octave"></div>
 
 
 
@@ -91,8 +86,6 @@
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <!-- bootstrap -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- chartist -->
-    <script src="bower_components/chartist/dist/chartist.min.js"></script>
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
     <!-- Firebase -->
@@ -111,6 +104,8 @@
     </script>
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+    <!-- Chart.js bundle (including Moment.js) -->
+    <script src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
     <!-- My WeighTracker JavaScript Code -->
     <script src="js/weighttracker.js"></script>
 
