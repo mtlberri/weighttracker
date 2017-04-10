@@ -3,19 +3,33 @@ var app = angular.module("weighttrackerApp", ["firebase", "chart.js"]);
 
 // App Controller
 app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray', function($scope, $timeout, $firebaseArray) {
-	
+
+	console.log("Hello there!");
+
+	// Initialize my variables
+	$scope.data_weights = [];
+	$scope.labels_time = [];
+
 	var ref = firebase.database().ref().child("weights");
 	// download the data into a local object
 	$scope.data = $firebaseArray(ref);
-	// putting a console.log here won't work, see below
-	console.log("Hello there!");
 
+	// Manage data once loaded
+	$scope.data.$loaded().then(function() {
+			console.log("Firebase data has been loaded!");
+			// Iterate over each key/value pair
+			angular.forEach($scope.data, function(entryPoint) {
+				console.log(entryPoint);
+				// Data update
+				$scope.data_weights.push(entryPoint.Weight);
+				console.log("$scope.data_weights is actually: " + $scope.data_weights);
+				// Labels time update
+				$scope.labels_time.push(entryPoint.DateAndTime);
+				console.log("$scope.labels_time is actually: " + $scope.labels_time);				
 
-	// Bind the firebase data to the chart data
-	$scope.labels_time = ["Mon", "Tue"];
-	$scope.data_weights = [170, 169];
-	$scope.series = ["Weights Serie"];
-	
+			});
+		});
+
 
 	//Method to add a new Weight, called by the form ng-submit
 	$scope.checkInWeight = function(){
