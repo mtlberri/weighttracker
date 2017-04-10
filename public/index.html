@@ -54,12 +54,12 @@
 
 
       <!-- START Weight user input Division -->
-      <div class="user-input-area">
+      <div class="user-input-area" style="text-align: center;">
         <form class="form-inline" ng-submit="checkInWeight()"> 
           <div class="form-group"> 
             <label for="weightInputField">Weight:</label>
             <div class="input-group">
-              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField">
+              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField" style="width:100px">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
@@ -70,8 +70,7 @@
       <!-- END Weight user input Division -->
 
       <!-- CHART -->
-      <canvas class="chart chart-line" chart-data="data_weights" chart-labels="labels_time" chart-series="series" id="WeightChart" width="500" height="200"></canvas>
-
+      <canvas class="chart chart-line" chart-data="data_weights" chart-labels="labels_time" chart-series="series" chart-dataset-override="joffreyDatasetOverride" height="100" id="WeightChart"></canvas>
 
 
     </div><!-- /.container -->

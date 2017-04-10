@@ -1,6 +1,18 @@
 // Angular App definition
 var app = angular.module("weighttrackerApp", ["firebase", "chart.js"]);
 
+
+// General Chart configuration
+app.config(['ChartJsProvider', function (ChartJsProvider) {
+    // Configure all charts
+    ChartJsProvider.setOptions({
+      animation: {
+      	// animation duration in ms
+      	duration: 1000,
+      }
+    });
+  }]);
+
 // App Controller
 app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray', function($scope, $timeout, $firebaseArray) {
 
@@ -9,6 +21,18 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	// Initialize my variables
 	$scope.data_weights = [0];
 	$scope.labels_time = [0];
+
+	// Set Chart Options
+	$scope.joffreyChartOptions = {
+		showLines: true,
+	};
+
+	$scope.joffreyDatasetOverride = {
+		fill: false,
+		lineTension: 0,
+		pointBackgroundColor: 'rgba(66, 139, 202, 1)',
+		borderColor: 'rgba(66, 139, 202, 1)',
+	};
 
 	var ref = firebase.database().ref().child("weights");
 	// download the data into a local object
