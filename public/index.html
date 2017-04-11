@@ -40,6 +40,22 @@
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
+
+
+
+
+          <div class="navbar-right">
+            <span id="user_name_navbar" style="color: #777;">Please Sign in </span>
+            <span style="color: #777;">( </span>
+              <a id="sign_in_out" href="#" style="color: #777;" onclick="firebase.auth().signOut();"></a>
+            <span style="color: #777;"> )</span>
+            <img id="userPhoto" src="images/default_user.png" alt="User photo" class="img-circle" style="width:40px;height:40px;margin:5px;">
+          </div>
+
+
+
+
+
         </div><!--/.nav-collapse -->
       </div>
     </nav>
