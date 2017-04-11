@@ -33,6 +33,98 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	$scope.labels_time = [0];
 	var joffreyLineColor = 'rgba(66, 139, 202, 1)';
 
+
+
+
+	// FirebaseUI config.
+	var uiConfig = {
+		signInSuccessUrl: '<url-to-redirect-to-on-success>',
+		signInOptions: [
+		  // Leave the lines as is for the providers you want to offer your users.
+		  firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+		  // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+		  // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+		  // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+		  firebase.auth.EmailAuthProvider.PROVIDER_ID
+		],
+		// Terms of service url.
+		tosUrl: '<your-tos-url>'
+	};
+
+	// Initialize the FirebaseUI Widget using Firebase.
+	var ui = new firebaseui.auth.AuthUI(firebase.auth());
+	// The start method will wait until the DOM is loaded.
+	ui.start('#firebaseui-auth-container', uiConfig);
+
+	// Firebase USER MANAGEMENT
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+	    // User is signed in.
+	    console.log("User is signed in!");
+	    var displayName = user.displayName;
+	    var email = user.email;
+	    var emailVerified = user.emailVerified;
+	    var photoURL = user.photoURL;
+	    var uid = user.uid;
+	    var providerData = user.providerData;
+
+	    user.getToken().then(function(accessToken) {
+
+			//Display name in the Nav bar
+			$("#user_name_navbar").text(displayName);
+			$("#sign-out").text("(Sign out)");
+
+			//jQuery hiding the Firebase UI Auth when the user is logged in
+			console.log("Hide Firebase UI Auth please!");
+			$("#firebaseui-auth-container").slideUp(1000);  
+
+			//Enable Ordering Form
+			$("#weightInputField").prop("disabled", false);
+
+			// Set User Photo
+			if (photoURL != null) {
+				//Use valid Photo URL from Google or Facebook 
+				document.getElementById('userPhoto').src = photoURL;
+			} else {
+				//Else, Default photo is used
+				document.getElementById('userPhoto').src = "images/default_user.png";
+			}
+
+			// Set user account details to Firebase
+			firebase.database().ref("users/" + uid + "/userDetails/").set({
+			  "displayName": displayName,
+			  "email": email,
+			  "emailVerified": emailVerified,
+			  "photoURL": photoURL,
+			  "uid": uid,
+			  "accessToken": accessToken,
+			  "providerData": providerData
+			  });
+
+	    });
+	  } else {
+	    // User is signed out.
+	    console.log("User is signed out!");
+
+		$("#user_name_navbar").text("Please Sign in below");
+		$("#sign-out").text("");
+
+    	//Disable Ordering Form
+		$("#weightInputField").prop("disabled", true);
+
+		// Set default user image
+		document.getElementById('userPhoto').src = "images/default_user.png";
+
+		//jQuery showing the Firebase UI Auth when the user is logged in
+		$("#firebaseui-auth-container").slideDown(1000);
+
+
+	  }
+	}, function(error) {
+	  console.log(error);
+	});
+
+
 	// Get the Chart Element
 	var chartElement = document.getElementById('WeightChart');
 
@@ -47,9 +139,6 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		// Update the data and labels with data from Firebase
 		$scope.data_weights = $scope.data.map(weightMapping);
 		$scope.labels_time = $scope.data.map(timeMapping);
-
-		console.log("$scope.data_weights:" + $scope.data_weights );		
-		console.log("Weights min:" + Math.min.apply(Math, $scope.data_weights) );
 
 		var myChart = new Chart(chartElement, {
 		    type: 'line',
@@ -96,7 +185,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 	// Watch for data events and resfresh Chart upon event
 	$scope.data.$watch(function(event) {
-		console.log(event);
+		//console.log(event);
 		refreshChart();
 	});
 
