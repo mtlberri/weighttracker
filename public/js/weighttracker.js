@@ -1,6 +1,8 @@
 // Angular App definition
 var app = angular.module("weighttrackerApp", ["firebase", "chart.js"]);
 
+// To use moment I need to:
+app.constant("moment", moment);
 
 // General Chart configuration
 app.config(['ChartJsProvider', function (ChartJsProvider) {
@@ -13,28 +15,13 @@ app.config(['ChartJsProvider', function (ChartJsProvider) {
       scales: {
       	xAxes: [{
       		type: 'time',
-      		/*
-      		time: {
-	      		displayFormats: {
-		           'millisecond': 'MMM DD',
-		           'second': 'MMM DD',
-		           'minute': 'MMM DD',
-		           'hour': 'MMM DD',
-		           'day': 'MMM DD',
-		           'week': 'MMM DD',
-		           'month': 'MMM DD',
-		           'quarter': 'MMM DD',
-		           'year': 'MMM DD',
-	        	}
-      		}
-      		*/
       	}]
       }
     });
   }]);
 
 // App Controller
-app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray', function($scope, $timeout, $firebaseArray) {
+app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray','moment', function($scope, $timeout, $firebaseArray, moment) {
 
 	console.log("Hello there!");
 
@@ -47,6 +34,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		showLines: true,
 	};
 
+	// Dataset override for options of my Chart Line
 	$scope.joffreyDatasetOverride = {
 		fill: false,
 		lineTension: 0,
@@ -83,7 +71,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		console.log("Add Weight " + $scope.weightInput + " into Firebase!");
 		
 		//Date 
-		var d = Date();
+		var d = moment().toISOString();
 		console.log("Date used for weight check in: " + d)
 
 		$scope.data.$add({
@@ -106,44 +94,6 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 }]); // END OF APP CONTROLLER
 
 
-
-	/*
-
-	// Weight Chart 
-	var ctx = document.getElementById("WeightChart");
-	var myWeightChart = new Chart(ctx, {
-	    type: 'line',
-	    data: {
-	        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-	        datasets: [{
-	            label: '# of Votes',
-	            data: [12, 19, 3, 5, 2, 3],
-	            backgroundColor: [
-	                'rgba(0,0,0,0.1)'
-	            ],
-	            borderColor: [
-	                'rgba(0,0,0,0.1)'
-	            ],
-	            borderWidth: 1
-	        }]
-	    },
-	    options: {
-	        scales: {
-	            yAxes: [{
-	                ticks: {
-	                    beginAtZero:true
-	                }
-	            }]
-	        },
-	        legend: {
-	        	display: false
-	        }
-	    }
-	});
-
-
-
-	*/
 
 
 

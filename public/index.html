@@ -54,12 +54,12 @@
 
 
       <!-- START Weight user input Division -->
-      <div class="user-input-area" style="text-align: center;">
+      <div class="user-input-area">
         <form class="form-inline" ng-submit="checkInWeight()"> 
           <div class="form-group"> 
             <label for="weightInputField">Weight:</label>
             <div class="input-group">
-              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField" style="width:100px">
+              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
@@ -102,8 +102,10 @@
     </script>
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
-    <!-- Chart.js bundle (including Moment.js) -->
-    <script src="node_modules/chart.js/dist/Chart.bundle.min.js"></script>
+    <!-- Moment -->
+    <script src="node_modules/moment/moment.js"></script>
+    <!-- Chart.js -->
+    <script src="node_modules/chart.js/dist/Chart.min.js"></script>
     <!-- Angular-Chart --> 
     <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
     <!-- My WeighTracker JavaScript Code -->
