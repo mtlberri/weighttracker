@@ -37,11 +37,13 @@
           <a class="navbar-brand" href="#">Weight Tracker</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
+          <!--
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
+          -->
           <div class="navbar-right">
             <span id="user_name_navbar" style="color: #777;"></span>
             <a id="sign-out" href="#" style="color: #777;" onclick="firebase.auth().signOut();"></a>
@@ -63,18 +65,13 @@
       <div id="firebaseui-auth-container"></div>
 
 
-      <div id="sign-in-status"></div>
-      <div id="sign-in"></div>
-      <div id="account-details"></div>
-
-
 
       <!-- START Weight user input Division -->
-      <div class="user-input-area">
+      <div class="user-input-area" style="width:400px;">
         <form class="form-inline" ng-submit="checkInWeight()"> 
           <div class="form-group"> 
-            <label for="weightInputField">Weight:</label>
-            <div class="input-group">
+            <label for="weightInputField">Actual Weight:</label>
+            <div class="input-group" style="width:150px;">
               <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField">
               <div class="input-group-addon">lbs</div>
             </div>
@@ -86,7 +83,23 @@
       <!-- END Weight user input Division -->
 
       <!-- CHART -->
-      <canvas id="WeightChart" height="100"></canvas>
+      <canvas id="WeightChart" height="150"></canvas>
+
+      <!-- START Weight Target -->
+      <div class="user-input-area" style="width:400px;">
+        <form class="form-inline" ng-submit="setTargetWeight()"> 
+          <div class="form-group"> 
+            <label for="weightTargetField">Target Weight:</label>
+            <div class="input-group" style="width:150px;">
+              <input type="number" class="form-control" placeholder="E.g.: 150" ng-model="weightTarget" id="weightTargetField">
+              <div class="input-group-addon">lbs</div>
+            </div>
+          </div>
+          <!-- Submit Form with Button -->
+          <button type="submit" class="btn btn-success" id="weightTargetSetButton">Set</button>
+        </form>
+      </div>
+      <!-- END Weight Target -->
 
 
     </div><!-- /.container -->

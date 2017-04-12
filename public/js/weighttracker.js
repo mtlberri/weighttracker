@@ -14,6 +14,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	$scope.uid = "default_user";
 	$scope.data_weights = [0];
 	$scope.labels_time = [0];
+	
 	var joffreyLineColor = 'rgba(66, 139, 202, 1)';
 	var chartElement = document.getElementById('WeightChart');
 
@@ -160,7 +161,11 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		    	},
 		        scales: {
 		        	xAxes: [{
-		        		type: "time"
+		        		type: "time",
+		        		time: {
+		        			displayFormats: {
+		        			}
+		        		}
 		        	}],
 		            yAxes: [{
 		                ticks: {
