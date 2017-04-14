@@ -17,8 +17,8 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	$scope.labels_time = [0];
 	$scope.currentTargetVar = null;
 
-	var joffreyLineColor = 'rgba(66, 139, 202, 1)';
-	var joffreyTargetLineColor = 'rgba(92,184,92,1)';
+	var joffreyBlueLineColor = 'rgba(66, 139, 202, 1)';
+	var joffreyGreenLineColor = 'rgba(92,184,92,1)';
 	var chartElement = document.getElementById('WeightChart');
 
 
@@ -157,22 +157,24 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		        labels: $scope.labels_time,
 		        datasets: [
 		        {
-		            fill: true,
+		            // Actual Weight
+		            fill: false,
 		            lineTension: 0,
 		            label: 'Weight',
 		            data: $scope.data_weights,
-		            borderColor: joffreyLineColor,
-		            pointBackgroundColor: joffreyLineColor,
+		            borderColor: joffreyBlueLineColor,
+		            pointBackgroundColor: joffreyBlueLineColor,
 		            borderWidth: 1
 		        },
 
 		        {
-		            fill: true,
+		            // Target Weight
+		            fill: false,
 		            lineTension: 0,
 		            label: 'Target Weight',
 		            data: $scope.data_target_weights,
-		            borderColor: joffreyTargetLineColor,
-		            pointBackgroundColor: joffreyTargetLineColor,
+		            borderColor: joffreyGreenLineColor,
+		            pointBackgroundColor: joffreyGreenLineColor,
 		            borderWidth: 1
 		        }
 
@@ -193,8 +195,8 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		            yAxes: [{
 		                ticks: {
 		                    beginAtZero:false,
-		                    // min: Math.round( Math.min.apply(Math, $scope.data_weights * 0.995 ),
-		                    // max: Math.round( Math.max.apply(Math, $scope.data_weights * 1.005 )
+		                    min: calculateMinMaxScale().min,
+		                    max: calculateMinMaxScale().max
 		                }
 		            }]
 		        }
@@ -212,6 +214,22 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	}	
 	function timeMapping(weightEntry) {
 		return weightEntry.DateAndTime;
+	}
+
+	// Function calculating the required scale min max to properly display
+	function calculateMinMaxScale() {
+		var minMax = {
+			min: null,
+			max: null
+		};
+		// Concatenate all data to be displayed in the chart
+		var overallDataChart = $scope.data_weights.concat($scope.data_target_weights);
+		// Filter out the elements that are not a number (undefined value for target for example)
+		var overallDataChartFiltered = overallDataChart.filter(function(targW) {return !( isNaN(targW) ) });
+		// Calculate the min and max for the scale
+		minMax.min = Math.round( Math.min.apply( Math, overallDataChartFiltered ) * 0.995 );
+		minMax.max = Math.round( Math.max.apply( Math, overallDataChartFiltered ) * 1.005 );
+		return minMax;
 	}
 
 
