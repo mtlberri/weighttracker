@@ -1,7 +1,11 @@
 .user-input-area {
 
-	padding: 20px;
-	width: 500px;
+	padding: 5px;
+	width: 340px;
 	margin: auto;
 
+}
+
+.joffrey-input-group {
+	width: 120px;
 }

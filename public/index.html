@@ -65,12 +65,12 @@
       <div id="firebaseui-auth-container"></div>
 
       <!-- START Weight Target -->
-      <div class="user-input-area" style="width:400px;">
+      <div class="user-input-area">
         <form class="form-inline" ng-submit="setTargetWeight()"> 
           <div class="form-group"> 
             <label for="weightTargetField">Target Weight:</label>
-            <div class="input-group" style="width:150px;">
-              <input type="number" class="form-control" placeholder="E.g.: 150" ng-model="weightTarget" id="weightTargetField">
+            <div class="input-group joffrey-input-group">
+              <input type="number" class="form-control" placeholder="150" ng-model="weightTarget" id="weightTargetField">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
@@ -81,12 +81,12 @@
       <!-- END Weight Target -->
 
       <!-- START Weight user input Division -->
-      <div class="user-input-area" style="width:400px;">
+      <div class="user-input-area">
         <form class="form-inline" ng-submit="checkInWeight()"> 
           <div class="form-group"> 
             <label for="weightInputField">Actual Weight:</label>
-            <div class="input-group" style="width:150px;">
-              <input type="number" class="form-control" placeholder="E.g.: 155" ng-model="weightInput" id="weightInputField">
+            <div class="input-group joffrey-input-group">
+              <input type="number" class="form-control" placeholder="155" ng-model="weightInput" id="weightInputField">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
