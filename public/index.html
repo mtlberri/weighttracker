@@ -64,7 +64,21 @@
       <!-- FIREBASE UI --> 
       <div id="firebaseui-auth-container"></div>
 
-
+      <!-- START Weight Target -->
+      <div class="user-input-area" style="width:400px;">
+        <form class="form-inline" ng-submit="setTargetWeight()"> 
+          <div class="form-group"> 
+            <label for="weightTargetField">Target Weight:</label>
+            <div class="input-group" style="width:150px;">
+              <input type="number" class="form-control" placeholder="E.g.: 150" ng-model="weightTarget" id="weightTargetField">
+              <div class="input-group-addon">lbs</div>
+            </div>
+          </div>
+          <!-- Submit Form with Button -->
+          <button type="submit" class="btn btn-success" id="weightTargetSetButton" style="width:85px">Set</button>
+        </form>
+      </div>
+      <!-- END Weight Target -->
 
       <!-- START Weight user input Division -->
       <div class="user-input-area" style="width:400px;">
@@ -77,29 +91,13 @@
             </div>
           </div>
           <!-- Submit Form with Button -->
-          <button type="submit" class="btn btn-primary" id="weightCheckInButton">Check In</button>
+          <button type="submit" class="btn btn-primary" id="weightCheckInButton" style="width:85px">Check In</button>
         </form>
       </div>
       <!-- END Weight user input Division -->
 
       <!-- CHART -->
       <canvas id="WeightChart" height="150"></canvas>
-
-      <!-- START Weight Target -->
-      <div class="user-input-area" style="width:400px;">
-        <form class="form-inline" ng-submit="setTargetWeight()"> 
-          <div class="form-group"> 
-            <label for="weightTargetField">Target Weight:</label>
-            <div class="input-group" style="width:150px;">
-              <input type="number" class="form-control" placeholder="E.g.: 150" ng-model="weightTarget" id="weightTargetField">
-              <div class="input-group-addon">lbs</div>
-            </div>
-          </div>
-          <!-- Submit Form with Button -->
-          <button type="submit" class="btn btn-success" id="weightTargetSetButton">Set</button>
-        </form>
-      </div>
-      <!-- END Weight Target -->
 
 
     </div><!-- /.container -->
