@@ -12,15 +12,15 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 	// Initialize my variables
 	$scope.uid = "default_user";
-	$scope.data_weights = [0];
+	$scope.data_weights = [];
 	$scope.data_target_weights = [];
-	$scope.labels_time = [0];
+	$scope.labels_time = [];
 	$scope.currentTargetVar = null;
 
+	// Chart related variables
+	var chartElement = document.getElementById('WeightChart');
 	var joffreyBlueLineColor = 'rgba(66, 139, 202, 1)';
 	var joffreyGreenLineColor = 'rgba(92,184,92,1)';
-	var chartElement = document.getElementById('WeightChart');
-
 
 	// FirebaseUI config.
 	var uiConfig = {
@@ -42,7 +42,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	// The start method will wait until the DOM is loaded.
 	ui.start('#firebaseui-auth-container', uiConfig);
 
-	// Firebase USER MANAGEMENT
+	// Firebase USER Sign In Monitoring
 	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 	    // User is signed in.
@@ -205,7 +205,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 	}
 
-	// Mapping functions
+	// Array Mapping functions
 	function weightMapping(weightEntry) {
 		return weightEntry.Weight;
 	}
