@@ -64,8 +64,17 @@
       <!-- FIREBASE UI --> 
       <div id="firebaseui-auth-container"></div>
 
+
+
       <!-- START Weight Target -->
+
+
       <div class="user-input-area">
+        <span id="spanCurrentTarget"></span>
+        <a href="" ng-click="targetChangeHideLinkClicked()" id="targetChangeHideLink"></a>
+      </div>
+
+      <div class="user-input-area" id="joffrey-target-div">
         <form class="form-inline" ng-submit="setTargetWeight()"> 
           <div class="form-group"> 
             <label for="weightTargetField">Target Weight: </label>

@@ -12,7 +12,8 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 	// Initialize my variables
 	$scope.uid = null;
-	$scope.currentTargets = null;
+	$scope.currentTargets = {};
+	$scope.currentTargetInputAreaVisible = false;
 	$scope.data_weights = [];
 	$scope.data_target_weights = [];
 	$scope.labels_time = [];
@@ -21,6 +22,9 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	var chartElement = document.getElementById('WeightChart');
 	var joffreyBlueLineColor = 'rgba(66, 139, 202, 1)';
 	var joffreyGreenLineColor = 'rgba(92,184,92,1)';
+
+	// Hide the target input area at first (it will be shown if required after)
+	$("#joffrey-target-div").hide();
 
 	// FirebaseUI config.
 	var uiConfig = {
@@ -128,6 +132,33 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	  console.log(error);
 	});
 
+
+	// Watch for target input area visibility changes and adapt view accordingly
+	$scope.$watch('currentTargetInputAreaVisible', function(newValue, oldValue) {
+		if ( newValue == true ) {
+			$("#joffrey-target-div").slideDown(1000);
+			$("#targetChangeHideLink").text("Hide");
+		} else {
+			$("#joffrey-target-div").slideUp(1000);
+			$("#targetChangeHideLink").text("Change");
+		}
+	});
+
+	// Watch for the target weight and adapt view accordingly
+	$scope.$watch('currentTargets', function() {
+			if ( isNaN($scope.currentTargets.currentTargetBodyWeight) ) {
+				$("#spanCurrentTarget").text("Your Target Weight is not set yet: ");
+				$("#targetChangeHideLink").hide();
+				$scope.currentTargetInputAreaVisible = true;
+			} else {
+				$("#targetChangeHideLink").show();
+				$("#spanCurrentTarget").text("Your current Target Weight is: " + $scope.currentTargets.currentTargetBodyWeight + "lbs");
+				$scope.currentTargetInputAreaVisible = false;
+			}
+	});
+
+
+
 	// AngularFire Data Binding 
 	function angularFireDataBindingJoffrey() {
 
@@ -166,9 +197,10 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		            // Actual Weight
 		            fill: false,
 		            lineTension: 0,
-		            label: 'Weight',
+		            label: 'Actual Weight',
 		            data: $scope.data_weights,
 		            borderColor: joffreyBlueLineColor,
+		            backgroundColor: joffreyBlueLineColor,
 		            pointBackgroundColor: joffreyBlueLineColor,
 		            borderWidth: 1
 		        },
@@ -180,6 +212,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		            label: 'Target Weight',
 		            data: $scope.data_target_weights,
 		            borderColor: joffreyGreenLineColor,
+		            backgroundColor: joffreyGreenLineColor,
 		            pointBackgroundColor: joffreyGreenLineColor,
 		            borderWidth: 1
 		        }
@@ -188,7 +221,9 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		    },
 		    options: {
 		    	legend: {
-		    		display: false
+		    		display: true,
+		    		position: "bottom"
+
 		    	},
 		        scales: {
 		        	xAxes: [{
@@ -273,6 +308,17 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 		// Save the new user weight target (three way data binding will secure data saving in Firebase as well)
 		$scope.currentTargets.currentTargetBodyWeight = $scope.newUserInputWeightTarget;
+
+	}
+
+	// Method changing value of target area visible when hyperlink clicked
+	$scope.targetChangeHideLinkClicked = function() {
+
+		if ($scope.currentTargetInputAreaVisible == true) {
+			$scope.currentTargetInputAreaVisible = false;
+		} else {
+			$scope.currentTargetInputAreaVisible = true;
+		}
 
 	}
 
