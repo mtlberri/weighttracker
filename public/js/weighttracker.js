@@ -28,7 +28,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 
 	// FirebaseUI config.
 	var uiConfig = {
-		signInSuccessUrl: '<url-to-redirect-to-on-success>',
+		//signInSuccessUrl: 'https://weighttracker-56948.firebaseapp.com/',
 		signInOptions: [
 		  // Leave the lines as is for the providers you want to offer your users.
 		  firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -38,7 +38,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		  firebase.auth.EmailAuthProvider.PROVIDER_ID
 		],
 		// Terms of service url.
-		tosUrl: '<your-tos-url>'
+		tosUrl: 'https://weighttracker-56948.firebaseapp.com/'
 	};
 
 	// Initialize the FirebaseUI Widget using Firebase.
@@ -83,9 +83,11 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 			if (photoURL != null) {
 				//Use valid Photo URL from Google or Facebook 
 				document.getElementById('userPhoto').src = photoURL;
+				document.getElementById('userPhotoBis').src = photoURL;
 			} else {
 				//Else, Default photo is used
 				document.getElementById('userPhoto').src = "images/default_user.png";
+				document.getElementById('userPhotoBis').src = "images/default_user.png";
 			}
 
 			// Set user account details to Firebase
@@ -120,6 +122,7 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 		
 		// Set default user image
 		document.getElementById('userPhoto').src = "images/default_user.png";
+		document.getElementById('userPhotoBis').src = "images/default_user.png";
 
 		//jQuery showing the Firebase UI Auth when the user is logged in
 		$("#firebaseui-auth-container").slideDown(1000);
