@@ -6,16 +6,16 @@ app.constant("moment", moment);
 app.constant("Chart", Chart);
 
 // App Controller
-app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray','moment', 'Chart', function($scope, $timeout, $firebaseArray, moment, Chart) {
+app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray', '$firebaseObject','moment', 'Chart', function($scope, $timeout, $firebaseArray, $firebaseObject, moment, Chart) {
 
 	console.log("Hello there!");
 
 	// Initialize my variables
-	$scope.uid = "default_user";
+	$scope.uid = null;
+	$scope.currentTargets = null;
 	$scope.data_weights = [];
 	$scope.data_target_weights = [];
 	$scope.labels_time = [];
-	$scope.currentTargetVar = null;
 
 	// Chart related variables
 	var chartElement = document.getElementById('WeightChart');
@@ -49,15 +49,8 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	    console.log("User is signed in!");
 	    $scope.uid = user.uid;
 
-		// Firebase data binding for the USER
-		var ref = firebase.database().ref().child("users/" + $scope.uid + "/weights/");
-		// download the data into a local object
-		$scope.data = $firebaseArray(ref);
-
-		// Watch for data events and resfresh Chart upon event
-		$scope.data.$watch(function(event) {
-			refreshChart();
-		});
+	    // Ensure data binding for the Signed In User
+	    angularFireDataBindingJoffrey();
 
 	    var displayName = user.displayName;
 	    var email = user.email;
@@ -73,7 +66,6 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 			$("#sign-out").text("(Sign out)");
 
 			//jQuery hiding the Firebase UI Auth when the user is logged in
-			console.log("Hide Firebase UI Auth please!");
 			$("#firebaseui-auth-container").slideUp(1000);  
 
 			//Enable Forms
@@ -109,15 +101,8 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	    console.log("User is signed out!");
 	    $scope.uid = "default_user";
 
-	    // Firebase data binding for the USER
-		var ref = firebase.database().ref().child("users/" + $scope.uid + "/weights/");
-		// download the data into a local object
-		$scope.data = $firebaseArray(ref);
-
-		// Watch for data events and resfresh Chart upon event
-		$scope.data.$watch(function(event) {
-			refreshChart();
-		});
+	    // Ensure data binding for the Default User
+	    angularFireDataBindingJoffrey();
 
 		$("#user_name_navbar").text("Please Sign in below");
 		$("#sign-out").text("");
@@ -142,6 +127,27 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	}, function(error) {
 	  console.log(error);
 	});
+
+	// AngularFire Data Binding 
+	function angularFireDataBindingJoffrey() {
+
+		// Angular-Fire Weight data binding
+		var ref = firebase.database().ref().child("users/" + $scope.uid + "/weights/");
+		$scope.data = $firebaseArray(ref);
+
+		// Angular-Fire Current Target data binding
+		var refTargets = firebase.database().ref().child("users/" + $scope.uid + "/currentTargets/");
+		$scope.currentTargets = $firebaseObject(refTargets);
+		// Three way data binding:
+		$scope.currentTargets.$bindTo($scope, "currentTargets");
+
+		// Watch for data events and resfresh Chart upon event
+		$scope.data.$watch(function(event) {
+			refreshChart();
+		});
+
+	}
+
 
 	// function refreshing the Weight Chart
 	function refreshChart() {
@@ -237,50 +243,36 @@ app.controller("weighttrackerController", ['$scope','$timeout', '$firebaseArray'
 	//Method to add a new Weight, called by the form ng-submit
 	$scope.checkInWeight = function(){
 
-		console.log("Check In button has been pressed");
 		//Add the order in the overall list of orders (Firebase)
 		console.log("Add Weight " + $scope.weightInput + " into Firebase!");
 		
 		//Date 
 		var d = moment().toISOString();
 
-		// current Target
-		$scope.currentTargetVar = null
-		firebase.database().ref().child("users/" + $scope.uid + "/currentTargets/").once('value').then(function(snapshot){
-			
-			if (snapshot.val() != null) {
-				console.log("Target weight read in Firebase when Chek In Weight is: " + snapshot.val().currentTargetBodyWeight);
-				$scope.currentTargetVar = snapshot.val().currentTargetBodyWeight;
-			} else {
-				console.log("Target weight read in Firebase when Chek In Weight is: null");
-			}
-		}).then(function(snapshot) {
+		console.log("current target weight at moment of check-in is: " + $scope.currentTargets.currentTargetBodyWeight);
+	
+		// Once current target retrieved, add weight entry in Firebase...
+		$scope.data.$add({
+	    	"DateAndTime": d,	    
+	    	"Weight": $scope.weightInput,
+	    	// If target is undefined in Firebase, replace by null to void that key/value
+	    	"TargetBodyWeight": ( typeof $scope.currentTargets.currentTargetBodyWeight == 'undefined') ? null : $scope.currentTargets.currentTargetBodyWeight
+		}).then(function(ref) {
+			console.log("Weight has been entered in Firebase with key: " + ref.key);
+			});
 
-			// Once current target retrieved, add weight entry in Firebase...
-			$scope.data.$add({
-		    	"DateAndTime": d,	    
-		    	"Weight": $scope.weightInput,
-		    	"TargetBodyWeight": $scope.currentTargetVar
-			}).then(function(ref) {
-				console.log("Weight has been entered in Firebase with key: " + ref.key);
-				})
-
-		});
+		
 
 	}
 
 	//Method to set the target weight
 	$scope.setTargetWeight = function() {
 
-		console.log("Set Target Weight button has been pressed");
 		//Add the order in the overall list of orders (Firebase)
-		console.log("Set Target Weight " + $scope.weightTarget + " into Firebase!");
+		console.log("Set Target Weight " + $scope.newUserInputWeightTarget + " into Firebase!");
 
-		var refTargetWeight = firebase.database().ref().child("users/" + $scope.uid + "/currentTargets/");
-
-		refTargetWeight.set({
-			currentTargetBodyWeight: $scope.weightTarget
-		});
+		// Save the new user weight target (three way data binding will secure data saving in Firebase as well)
+		$scope.currentTargets.currentTargetBodyWeight = $scope.newUserInputWeightTarget;
 
 	}
 

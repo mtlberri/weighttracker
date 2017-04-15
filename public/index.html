@@ -68,9 +68,9 @@
       <div class="user-input-area">
         <form class="form-inline" ng-submit="setTargetWeight()"> 
           <div class="form-group"> 
-            <label for="weightTargetField">Target Weight:</label>
+            <label for="weightTargetField">Target Weight: </label>
             <div class="input-group joffrey-input-group">
-              <input type="number" class="form-control" placeholder="150" ng-model="weightTarget" id="weightTargetField">
+              <input type="number" class="form-control" ng-model="newUserInputWeightTarget" value="{{ currentTargets.currentTargetBodyWeight }}" id="weightTargetField" required="required">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
@@ -78,6 +78,7 @@
           <button type="submit" class="btn btn-success" id="weightTargetSetButton" style="width:85px">Set</button>
         </form>
       </div>
+      
       <!-- END Weight Target -->
 
       <!-- START Weight user input Division -->
@@ -86,7 +87,7 @@
           <div class="form-group"> 
             <label for="weightInputField">Actual Weight:</label>
             <div class="input-group joffrey-input-group">
-              <input type="number" class="form-control" placeholder="155" ng-model="weightInput" id="weightInputField">
+              <input type="number" class="form-control" placeholder="155" ng-model="weightInput" id="weightInputField" required="required">
               <div class="input-group-addon">lbs</div>
             </div>
           </div>
